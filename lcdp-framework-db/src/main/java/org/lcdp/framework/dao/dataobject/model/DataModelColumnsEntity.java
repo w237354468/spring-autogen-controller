@@ -22,8 +22,20 @@ public class DataModelColumnsEntity extends GeneralEntityBase {
     @Column(name = "column_name")
     private String fieldName;
 
+    @Column(name = "column_type")
+    private String filedType;
+
+    @Column(name = "column_describe")
+    private String filedDescribe;
+
     @Column(name = "java_attr")
     private String javaAttr;
+
+    @Column(name = "java_type")
+    private String javaType;
+
+    @Column(name = "pk")
+    private String pk;
 
     @Column(name = "insert_permit")
     private Integer insertPermit;
@@ -37,9 +49,21 @@ public class DataModelColumnsEntity extends GeneralEntityBase {
     @Column(name = "query_permit")
     private Integer queryPermit;
 
+    @Column(name = "required")
+    private String required;
+
     @Column(name = "dict_trans_id")
     private String dictTransId;
 
+    @Column(name = "query_mode")
+    private String queryMode;
+
     @Column(name = "displayType")
     private String displayType;
+
+    @Column(name = "default_content")
+    private String defaultValue;
+
+    @Column(name = "onwer_ship_table")
+    private String ownershipTable;
 }

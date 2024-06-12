@@ -29,8 +29,8 @@ public class DataSourceEntity extends GeneralEntityBase {
     @Column(name = "database_type")
     private String databaseType;
 
-    @Column(name = "data_source_link")
-    private String dataSourceLink;
+    @Column(name = "data_source_url")
+    private String dataSourceUrl;
 
     @Column(name = "data_source_account")
     private String account;

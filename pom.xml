@@ -26,6 +26,8 @@
 
     <modules>
         <module>lcdp-framework-db</module>
+        <module>lcdp-framework-service</module>
+        <module>lcdp-framework-web</module>
     </modules>
 
     <dependencyManagement>
@@ -38,6 +40,16 @@
             <dependency>
                 <groupId>org.lcdpframework</groupId>
                 <artifactId>lcdp-framework-db</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.lcdpframework</groupId>
+                <artifactId>lcdp-framework-service</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.lcdpframework</groupId>
+                <artifactId>lcdp-framework-controller</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>
