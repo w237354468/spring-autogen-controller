@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface DataSourceRepository extends JpaRepository<DataSourceEntity, String > {
 
-    Page<DataSourceEntity> findAllByDataSourceNameLike(Pageable page);
+    Page<DataSourceEntity> findAllByDataSourceNameLike(String dataSourceName, Pageable page);
 }

@@ -16,7 +16,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "data_model_controller")
-public class DataModelControllersEntity extends GeneralEntityBase {
+public class DataModelControllerEntity extends GeneralEntityBase {
 
     @Id
     @Column(name = "controller_id")
@@ -57,9 +57,9 @@ public class DataModelControllersEntity extends GeneralEntityBase {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "controller_id")
     @ToString.Exclude
-    private List<DataModelControllerMappingsEntity> mappingsEntityList = new ArrayList<>();
+    private List<DataModelControllerMappingEntity> mappingsEntityList = new ArrayList<>();
 
-    public void addControllerMapping(DataModelControllerMappingsEntity dataModelControllerMappingsEntity) {
-        this.mappingsEntityList.add(dataModelControllerMappingsEntity);
+    public void addControllerMapping(DataModelControllerMappingEntity dataModelControllerMappingEntity) {
+        this.mappingsEntityList.add(dataModelControllerMappingEntity);
     }
 }

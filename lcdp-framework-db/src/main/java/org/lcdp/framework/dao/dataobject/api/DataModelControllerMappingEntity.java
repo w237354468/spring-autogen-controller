@@ -12,7 +12,7 @@ import java.util.List;
 @ToString
 @Entity
 @Table(name = "data_model_controller_mappings")
-public class DataModelControllerMappingsEntity extends GeneralEntityBase {
+public class DataModelControllerMappingEntity extends GeneralEntityBase {
 
     @Id
     @Column(name = "mapping_id")

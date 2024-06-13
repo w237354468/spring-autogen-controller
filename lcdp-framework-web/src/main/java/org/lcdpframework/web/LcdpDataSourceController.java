@@ -7,7 +7,7 @@ import org.lcdpframework.server.dto.TableDetailInfo;
 import org.lcdpframework.server.impl.manager.LcdpDataSourceService;
 import org.lcdpframework.web.copier.LcdpDataSourceWebCopier;
 import org.lcdpframework.web.model.Response;
-import org.lcdpframework.web.model.qo.LcdpDataModelUpdate;
+import org.lcdpframework.web.model.qo.LcdpDataSourceUpdate;
 import org.lcdpframework.web.model.qo.LcdpDataSourceAdd;
 import org.lcdpframework.web.model.qo.LcdpDataSourceQuery;
 import org.lcdpframework.web.model.vo.LcdpDataSourceResult;
@@ -59,7 +59,7 @@ public class LcdpDataSourceController {
 
     @PutMapping("/{id}")
     public Response<Void> update(@PathVariable("id") String dataSourceId,
-                                 @RequestBody @Valid LcdpDataModelUpdate update) {
+                                 @RequestBody @Valid LcdpDataSourceUpdate update) {
         dataSourceService.update(dataSourceId, dataSourceWebCopier.updateToDTO(update));
         return Response.ok();
     }

@@ -9,7 +9,7 @@ import org.lcdp.framework.dao.dataobject.GeneralEntityBase;
 @ToString
 @Entity
 @Table(name = "data_model_columns")
-public class DataModelColumnsEntity extends GeneralEntityBase {
+public class DataModelColumnEntity extends GeneralEntityBase {
 
     @Id
     @Column(name = "column_id")

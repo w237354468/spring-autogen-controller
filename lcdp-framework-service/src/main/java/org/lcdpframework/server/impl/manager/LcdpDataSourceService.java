@@ -42,7 +42,7 @@ public class LcdpDataSourceService {
 
     public Page<LcdpDataSourceDTO> getList(LcdpDataSourceDTO dataSourceQuery) {
         PageRequest page = PageRequest.of(dataSourceQuery.getPageNum(), dataSourceQuery.getPageSize());
-        Page<DataSourceEntity> pageResult = dataSourceRepository.findAllByDataSourceNameLike(page);
+        Page<DataSourceEntity> pageResult = dataSourceRepository.findAllByDataSourceNameLike(dataSourceQuery.getDataSourceName(), page);
         return pageResult.map(dataSourceServiceCopier::entityToDTO);
     }
 
