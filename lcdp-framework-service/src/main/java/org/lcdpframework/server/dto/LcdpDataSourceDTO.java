@@ -8,6 +8,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class LcdpDataSourceDTO extends PageQuery implements Serializable {
+    private String dataSourceId;
     private String dataSourceName;
     private String databaseType;
     private String dataSourceUrl;

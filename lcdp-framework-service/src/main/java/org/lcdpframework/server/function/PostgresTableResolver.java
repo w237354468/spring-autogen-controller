@@ -26,7 +26,7 @@ public class PostgresTableResolver {
 
     private static final String ENCODING_QUERY = "SHOW SERVER_encoding";
 
-    public List<TableDetailInfo> getTableInfo(LcdpDataSourceDTO dataSourceDTO) {
+    public static List<TableDetailInfo> getTableInfo(LcdpDataSourceDTO dataSourceDTO) {
 
         String account = dataSourceDTO.getAccount();
         String password = dataSourceDTO.getPassword();

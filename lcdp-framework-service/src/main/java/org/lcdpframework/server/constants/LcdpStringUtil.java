@@ -4,7 +4,7 @@ public class LcdpStringUtil {
 
     public static String toCamel(String str){
 
-        if(str == null || str.trim().equals("")){
+        if(str == null || str.trim().isEmpty()){
             return "";
         }
 

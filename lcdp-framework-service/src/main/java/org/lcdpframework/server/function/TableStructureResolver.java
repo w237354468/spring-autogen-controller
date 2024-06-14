@@ -18,7 +18,7 @@ public class TableStructureResolver implements Function<LcdpDataSourceDTO, List<
 
         switch (dataSourceDTO.getDatabaseType()) {
             case TYPE_POSTGRES: {
-                return new PostgresTableResolver().getTableInfo(dataSourceDTO);
+                return PostgresTableResolver.getTableInfo(dataSourceDTO);
             }
             case TYPE_MYSQL: {
             }

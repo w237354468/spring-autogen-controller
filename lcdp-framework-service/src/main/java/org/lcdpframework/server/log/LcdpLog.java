@@ -11,11 +11,9 @@ import static org.lcdpframework.server.log.LcdpLog.LOGGER_TYPE.*;
 public class LcdpLog {
 
     private static final Logger SYSTEM_LOGGER = LoggerFactory.getLogger("LCDP_SYSTEM");
-    private static final Logger WORK_FLOW_LOGGER = LoggerFactory.getLogger("LCDP_WORK_FLOW");
     private static final Logger BUSINESS_CONTROLLER_LOGGER = LoggerFactory.getLogger("LCDP_BUSINESS_CONTROLLER");
     private static final Logger BUSINESS_SERVICE_LOGGER = LoggerFactory.getLogger("LCDP_BUSINESS_SERVICE");
     private static final Logger MDL_CONNECTOR_LOGGER = LoggerFactory.getLogger("LCDP_MDL_CONNECTOR");
-    private static final Logger MDL_GENERIC_LOGGER = LoggerFactory.getLogger("LCDP_MDL-ASSEMBLE");
     private static final Logger MDL_LIST_LOGGER = LoggerFactory.getLogger("LCDP_MDL-LIST-Connector");
     private static final Logger MDL_UPDATE_LOGGER = LoggerFactory.getLogger("LCDP_MDL-UPDATE-Connector");
     private static final Logger MDL_ONE_QUERY_LOGGER = LoggerFactory.getLogger("LCDP_MDL-ONE-Connector");
@@ -45,8 +43,6 @@ public class LcdpLog {
         typeWithLogger.put(MDL_DELETE, MDL_DELETE_LOGGER);
         typeWithLogger.put(MDL_IMPORT, MDL_IMPORT_LOGGER);
         typeWithLogger.put(MDL_EXPORT, MDL_EXPORT_LOGGER);
-        typeWithLogger.put(ASSEMBLE, MDL_GENERIC_LOGGER);
-        typeWithLogger.put(WORK_FLOW, WORK_FLOW_LOGGER);
         typeWithLogger.put(THREAD_LOCAL, THREADLOCAL_LOGGER);
     }
 
