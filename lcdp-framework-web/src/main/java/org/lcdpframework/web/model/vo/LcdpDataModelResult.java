@@ -1,6 +1,6 @@
 package org.lcdpframework.web.model.vo;
 
-import org.lcdp.framework.dao.dataobject.JoinInfo;
+import org.lcdpframework.dao.dataobject.JoinInfo;
 import org.lcdpframework.server.dto.DataModelColumnDTO;
 
 import java.util.List;

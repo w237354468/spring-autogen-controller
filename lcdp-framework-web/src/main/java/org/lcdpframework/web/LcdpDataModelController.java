@@ -45,7 +45,7 @@ public class LcdpDataModelController {
     }
 
     @DeleteMapping("/{id}")
-    public Response<Void> delById(String dataModelId) {
+    public Response<Void> delById(@PathVariable("id") String dataModelId) {
         dataModelService.delete(dataModelId);
         return Response.ok();
     }

@@ -2,7 +2,7 @@ package org.lcdpframework.server.dto;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.lcdp.framework.dao.dataobject.JoinInfo;
+import org.lcdpframework.dao.dataobject.JoinInfo;
 
 import java.io.Serializable;
 import java.util.List;

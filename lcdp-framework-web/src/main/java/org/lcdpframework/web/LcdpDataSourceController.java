@@ -7,9 +7,9 @@ import org.lcdpframework.server.dto.TableDetailInfo;
 import org.lcdpframework.server.impl.manager.LcdpDataSourceService;
 import org.lcdpframework.web.copier.LcdpDataSourceWebCopier;
 import org.lcdpframework.web.model.Response;
-import org.lcdpframework.web.model.qo.LcdpDataSourceUpdate;
 import org.lcdpframework.web.model.qo.LcdpDataSourceAdd;
 import org.lcdpframework.web.model.qo.LcdpDataSourceQuery;
+import org.lcdpframework.web.model.qo.LcdpDataSourceUpdate;
 import org.lcdpframework.web.model.vo.LcdpDataSourceResult;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -52,7 +52,7 @@ public class LcdpDataSourceController {
     }
 
     @DeleteMapping("/{id}")
-    public Response<Void> delById(String dataSourceId) {
+    public Response<Void> delById(@PathVariable("id") String dataSourceId) {
         dataSourceService.delete(dataSourceId);
         return Response.ok();
     }

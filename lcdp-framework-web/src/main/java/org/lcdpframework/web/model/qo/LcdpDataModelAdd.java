@@ -1,7 +1,7 @@
 package org.lcdpframework.web.model.qo;
 
 import jakarta.validation.constraints.NotEmpty;
-import org.lcdp.framework.dao.dataobject.JoinInfo;
+import org.lcdpframework.dao.dataobject.JoinInfo;
 import org.lcdpframework.server.dto.DataModelColumnDTO;
 
 import java.util.List;

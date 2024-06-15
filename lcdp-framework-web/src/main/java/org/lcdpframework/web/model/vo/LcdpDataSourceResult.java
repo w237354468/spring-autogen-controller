@@ -1,6 +1,6 @@
 package org.lcdpframework.web.model.vo;
 
-import org.lcdp.framework.dao.dataobject.model.DataModelEntity;
+import org.lcdpframework.dao.dataobject.model.DataModelEntity;
 
 import java.util.List;
 

@@ -19,20 +19,16 @@ public class LcdpGlobalParamHolder {
                 }
             };
 
-    public static Object getParam(String key) {
-        return globalParamHolder.get().get(key);
-    }
-
-    public static void setParam(String key, Object value) {
-        globalParamHolder.get().put(key, value);
-    }
-
-    public static void removeKey(String key) {
-        globalParamHolder.get().remove(key);
-    }
-
     public static void clear() {
         globalParamHolder.remove();
+    }
+
+    public static LcdpDataModelDTO getDataModel() {
+        return (LcdpDataModelDTO) getParam(CACHE_DATA_MODEL);
+    }
+
+    public static Object getParam(String key) {
+        return globalParamHolder.get().get(key);
     }
 
     public static void setDataModel(LcdpDataModelDTO dataModel) {
@@ -43,15 +39,19 @@ public class LcdpGlobalParamHolder {
         setParam(CACHE_DATA_MODEL, dataModel);
     }
 
-    public static void setCurrentDatasource(String currentDatasource) {
-        setParam(CURRENT_DATASOURCE, currentDatasource);
+    public static void setParam(String key, Object value) {
+        globalParamHolder.get().put(key, value);
     }
 
-    public static LcdpDataModelDTO getDataModel() {
-        return (LcdpDataModelDTO) getParam(CACHE_DATA_MODEL);
+    public static void removeKey(String key) {
+        globalParamHolder.get().remove(key);
     }
 
     public static String getCurrentDatasource() {
         return (String) getParam(CURRENT_DATASOURCE);
+    }
+
+    public static void setCurrentDatasource(String currentDatasource) {
+        setParam(CURRENT_DATASOURCE, currentDatasource);
     }
 }

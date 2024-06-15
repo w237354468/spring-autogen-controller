@@ -1,8 +1,8 @@
 package org.lcdpframework.server.impl.manager;
 
 import jakarta.transaction.Transactional;
-import org.lcdp.framework.dao.dataobject.model.DataSourceEntity;
-import org.lcdp.framework.dao.repository.DataSourceRepository;
+import org.lcdpframework.dao.dataobject.model.DataSourceEntity;
+import org.lcdpframework.dao.repository.DataSourceRepository;
 import org.lcdpframework.server.beancopier.LcdpDataSourceServiceCopier;
 import org.lcdpframework.server.dto.DataModelColumnsInfoDTO;
 import org.lcdpframework.server.dto.LcdpDataSourceDTO;
@@ -36,10 +36,6 @@ public class LcdpDataSourceService {
         this.dataSourceServiceCopier = dataSourceServiceCopier;
     }
 
-    public LcdpDataSourceDTO getById(String dataSourceId) {
-        return dataSourceServiceCopier.entityToDTO(dataSourceRepository.getReferenceById(dataSourceId));
-    }
-
     public Page<LcdpDataSourceDTO> getList(LcdpDataSourceDTO dataSourceQuery) {
         PageRequest page = PageRequest.of(dataSourceQuery.getPageNum(), dataSourceQuery.getPageSize());
         Page<DataSourceEntity> pageResult = dataSourceRepository.findAllByDataSourceNameLike(dataSourceQuery.getDataSourceName(), page);
@@ -61,6 +57,10 @@ public class LcdpDataSourceService {
         LcdpDataSourceDTO previousDataSource = getById(dataSourceId);
         dataSourceRepository.deleteById(dataSourceId);
         LcdpEventUtil.publishEvent(DataSourceChangeEvent.of(previousDataSource, null));
+    }
+
+    public LcdpDataSourceDTO getById(String dataSourceId) {
+        return dataSourceServiceCopier.entityToDTO(dataSourceRepository.getReferenceById(dataSourceId));
     }
 
     @Transactional

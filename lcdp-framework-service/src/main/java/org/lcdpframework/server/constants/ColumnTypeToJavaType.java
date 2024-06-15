@@ -12,10 +12,6 @@ public class ColumnTypeToJavaType {
     private static final Map<String, String> TYPE_MAP = new HashMap<>();
     private static final Map<String, String> TYPE_ID = new HashMap<>();
 
-    public static String getTypeIdByColumnType(String columnType) {
-        return TYPE_ID.get(TYPE_MAP.get(columnType));
-    }
-
     static {
         TYPE_MAP.put("ABSTIME", LocalDateTime.class.getName());
         TYPE_MAP.put("BIT", Boolean.class.getName());
@@ -60,6 +56,10 @@ public class ColumnTypeToJavaType {
         TYPE_ID.put(LocalDate.class.getName(), "09");
         TYPE_ID.put(LocalDateTime.class.getName(), "10");
         TYPE_ID.put(Clob.class.getName(), "11");
+    }
+
+    public static String getTypeIdByColumnType(String columnType) {
+        return TYPE_ID.get(TYPE_MAP.get(columnType));
     }
 
 }

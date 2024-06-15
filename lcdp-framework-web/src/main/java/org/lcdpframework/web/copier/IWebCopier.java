@@ -10,8 +10,9 @@ public interface IWebCopier<Add, Update, Query, Result, DTO> {
 
     DTO queryToDTO(Query query);
 
+    default Page<Result> dtoPageToResultPage(Page<DTO> dtoPage) {
+        return dtoPage.map(this::dtoToResult);
+    }
+
     Result dtoToResult(DTO dto);
-
-    Page<Result> dtoPageToResultPage(Page<DTO> dtoPage);
-
 }

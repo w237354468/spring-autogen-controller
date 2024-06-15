@@ -22,13 +22,6 @@ public class LcdpLog {
     private static final Logger MDL_IMPORT_LOGGER = LoggerFactory.getLogger("LCDP_MDL-IMPORT-Connector");
     private static final Logger MDL_EXPORT_LOGGER = LoggerFactory.getLogger("LCDP_MDL-EXPORT-Connector");
     private static final Logger THREADLOCAL_LOGGER = LoggerFactory.getLogger("LCDP_THREADLOCAL");
-
-    public enum LOGGER_TYPE {
-        MDL_CONNECTOR, EXT_CONNECTOR, SQL_CONNECTOR, BUSINESS_CONTROLLER, BUSINESS_SERVICE,
-        MDL_UPDATE, MDL_LIST, MDL_ONE, MDL_ADD, MDL_DELETE, MDL_IMPORT, MDL_EXPORT, ASSEMBLE,
-        SYSTEM, WORK_FLOW, THREAD_LOCAL
-    }
-
     private static final Map<LOGGER_TYPE, Logger> typeWithLogger = new EnumMap<>(LOGGER_TYPE.class);
 
     static {
@@ -116,5 +109,11 @@ public class LcdpLog {
     public static void printError(LOGGER_TYPE type, String format, Object... args) {
 
         typeWithLogger.get(type).error(format, args);
+    }
+
+    public enum LOGGER_TYPE {
+        MDL_CONNECTOR, EXT_CONNECTOR, SQL_CONNECTOR, BUSINESS_CONTROLLER, BUSINESS_SERVICE,
+        MDL_UPDATE, MDL_LIST, MDL_ONE, MDL_ADD, MDL_DELETE, MDL_IMPORT, MDL_EXPORT, ASSEMBLE,
+        SYSTEM, WORK_FLOW, THREAD_LOCAL
     }
 }

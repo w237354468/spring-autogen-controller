@@ -36,6 +36,22 @@ public class DynamicDataSourceHolder implements EnvironmentAware, ApplicationCon
         LcdpLog.printInfo(SYSTEM, "cache new datasource : {}", dataSourceKey);
     }
 
+    public static HikariDataSource getDataSourceByDataModelDTO(LcdpDataSourceDTO dataSource) {
+
+        HikariConfig prop = new HikariConfig();
+        prop.setPassword(dataSource.getPassword());
+        prop.setUsername(dataSource.getAccount());
+        prop.setJdbcUrl(dataSource.getDataSourceUrl());
+        prop.setConnectionTestQuery(DEFAULT_VALIDATION_QUERY);
+        prop.setDataSourceClassName(environment.getProperty("spring.datasource.driver-class-nam"));
+        prop.setPoolName(dataSource.getDataSourceName());
+        return getDataSourceByProperties(prop);
+    }
+
+    private static HikariDataSource getDataSourceByProperties(HikariConfig prop) {
+        return new HikariDataSource(prop);
+    }
+
     public static void removeDataSource(String dataSourceKey) {
         targetDataSource.remove(dataSourceKey);
     }
@@ -53,10 +69,6 @@ public class DynamicDataSourceHolder implements EnvironmentAware, ApplicationCon
         } else {
             return param;
         }
-    }
-
-    public static void switchDbKeys(String dbKey) {
-        LcdpGlobalParamHolder.setCurrentDatasource(dbKey);
     }
 
     public static void resetDbKeys() {
@@ -86,14 +98,8 @@ public class DynamicDataSourceHolder implements EnvironmentAware, ApplicationCon
         }
     }
 
-    @Override
-    public void setEnvironment(Environment environment) {
-        this.environment = environment;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext = applicationContext;
+    public static void switchDbKeys(String dbKey) {
+        LcdpGlobalParamHolder.setCurrentDatasource(dbKey);
     }
 
     public static HikariDataSource getDataSourceByDataModelDTO(DataSourceProperties dataSourceProperties) {
@@ -107,19 +113,13 @@ public class DynamicDataSourceHolder implements EnvironmentAware, ApplicationCon
         return getDataSourceByProperties(prop);
     }
 
-    public static HikariDataSource getDataSourceByDataModelDTO(LcdpDataSourceDTO dataSource) {
-
-        HikariConfig prop = new HikariConfig();
-        prop.setPassword(dataSource.getPassword());
-        prop.setUsername(dataSource.getAccount());
-        prop.setJdbcUrl(dataSource.getDataSourceUrl());
-        prop.setConnectionTestQuery(DEFAULT_VALIDATION_QUERY);
-        prop.setDataSourceClassName(environment.getProperty("spring.datasource.driver-class-nam"));
-        prop.setPoolName(dataSource.getDataSourceName());
-        return getDataSourceByProperties(prop);
+    @Override
+    public void setEnvironment(Environment environment) {
+        this.environment = environment;
     }
 
-    private static HikariDataSource getDataSourceByProperties(HikariConfig prop) {
-        return new HikariDataSource(prop);
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
 }

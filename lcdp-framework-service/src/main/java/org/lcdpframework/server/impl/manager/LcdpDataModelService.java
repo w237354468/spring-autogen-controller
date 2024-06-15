@@ -1,8 +1,8 @@
 package org.lcdpframework.server.impl.manager;
 
 import jakarta.transaction.Transactional;
-import org.lcdp.framework.dao.dataobject.model.DataModelEntity;
-import org.lcdp.framework.dao.repository.DataModelRepository;
+import org.lcdpframework.dao.dataobject.model.DataModelEntity;
+import org.lcdpframework.dao.repository.DataModelRepository;
 import org.lcdpframework.server.beancopier.LcdpDataModelServiceCopier;
 import org.lcdpframework.server.dto.LcdpDataModelDTO;
 import org.springframework.data.domain.Page;
@@ -15,7 +15,7 @@ public class LcdpDataModelService {
     private final LcdpDataModelServiceCopier dataModelServiceCopier;
     private final DataModelRepository dataModelRepository;
 
-    public LcdpDataModelService(LcdpDataModelServiceCopier dataModelServiceCopier,DataModelRepository dataModelRepository) {
+    public LcdpDataModelService(LcdpDataModelServiceCopier dataModelServiceCopier, DataModelRepository dataModelRepository) {
         this.dataModelServiceCopier = dataModelServiceCopier;
         this.dataModelRepository = dataModelRepository;
     }

@@ -1,7 +1,7 @@
 package org.lcdpframework.server.dto;
 
 import lombok.Data;
-import org.lcdp.framework.dao.dataobject.dict.DataDictEntity;
+import org.lcdpframework.dao.dataobject.dict.DataDictEntity;
 
 @Data
 public class DataDictDetailDTO {

@@ -18,7 +18,7 @@ public class DataSourceChangeEvent extends LcdpApplicationEvent {
         this.change = change;
     }
 
-    public static DataSourceChangeEvent of(LcdpDataSourceDTO before, LcdpDataSourceDTO after){
+    public static DataSourceChangeEvent of(LcdpDataSourceDTO before, LcdpDataSourceDTO after) {
         Change changeInfo = new Change(before, after);
         return new DataSourceChangeEvent(changeInfo);
     }

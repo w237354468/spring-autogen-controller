@@ -21,6 +21,7 @@ public class TableStructureResolver implements Function<LcdpDataSourceDTO, List<
                 return PostgresTableResolver.getTableInfo(dataSourceDTO);
             }
             case TYPE_MYSQL: {
+                // TODO
             }
             default: {
                 return new ArrayList<>();
