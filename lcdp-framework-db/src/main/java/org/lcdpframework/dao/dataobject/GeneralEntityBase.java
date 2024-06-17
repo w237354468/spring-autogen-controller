@@ -17,16 +17,16 @@ import java.time.LocalDateTime;
 public class GeneralEntityBase {
 
     @Column(name = "created_by")
-    protected String createBy;
+    protected String createdBy;
 
-    @Column(name = "created_time")
-    protected LocalDateTime createTime;
+    @Column(name = "created_on")
+    protected LocalDateTime createdOn;
 
     @Column(name = "updated_by")
-    protected String updateBy;
+    protected String updatedBy;
 
-    @Column(name = "updated_time")
-    protected LocalDateTime updateTime;
+    @Column(name = "updated_on")
+    protected LocalDateTime updatedOn;
 
     @Column(name = "has_deleted")
     protected String hasDelete;

@@ -48,7 +48,7 @@ public class DataModelEntity extends GeneralEntityBase {
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "data_model_id")
-    @OrderBy("updateTime desc")
+    @OrderBy("updatedOn desc")
     @ToString.Exclude
     private List<DataModelColumnEntity> dataModelColumns = new ArrayList<>();
 
