@@ -1,7 +1,6 @@
-# Lower code developer platform
+# spring-autogen-controller
 
-> A convenient Lcdp platform which could help you generate controllers(Spring) by setting on the website instead of
-> writing code in IDE. (Maybe can help you save above 30% develop time.)
+> A convenient plugin which could help you generate controllers(Spring) by configuring instead of writing code in IDE. (Basic GET/POST/PUT/DELETE)
 
 # Data Model
 
