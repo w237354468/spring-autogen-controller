@@ -7,7 +7,7 @@ import org.lcdpframework.web.model.qo.LcdpDataModelUpdate;
 import org.lcdpframework.web.model.vo.LcdpDataModelResult;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface LcdpDataModelWebCopier extends IWebCopier
         <LcdpDataModelAdd, LcdpDataModelUpdate, LcdpDataModelQuery, LcdpDataModelResult, LcdpDataModelDTO> {
 }

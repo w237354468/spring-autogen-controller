@@ -7,7 +7,7 @@ import org.lcdpframework.web.model.qo.LcdpControllerUpdate;
 import org.lcdpframework.web.model.vo.LcdpControllerResult;
 import org.mapstruct.Mapper;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface LcdpControllerWebCopier extends IWebCopier<
         LcdpControllerAdd, LcdpControllerUpdate, LcdpControllerQuery, LcdpControllerResult, LcdpControllerDTO> {
 }
