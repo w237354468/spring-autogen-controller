@@ -30,6 +30,9 @@ public class MappingRequestParamEntity extends GeneralEntityBase {
     @Column(name = "define_type")
     private String defineType;
 
+    @Column(name = "query_type")
+    private String queryType;
+
     // display name on website
     @Column(name = "param_name")
     private String paramName;

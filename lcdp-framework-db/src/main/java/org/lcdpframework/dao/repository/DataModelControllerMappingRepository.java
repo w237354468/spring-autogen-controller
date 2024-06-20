@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DataModelControllerMappingRepository extends JpaRepository<DataModelControllerMappingEntity, String> {
+
+    DataModelControllerMappingEntity findByMappingUrlEquals(String url);
 }

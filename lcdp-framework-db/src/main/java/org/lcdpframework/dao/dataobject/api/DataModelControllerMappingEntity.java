@@ -26,6 +26,9 @@ public class DataModelControllerMappingEntity extends GeneralEntityBase {
     @Column(name = "controller_id")
     private String controllerId;
 
+    @Column(name = "method_intent")
+    private String methodIntent;
+
     @Column(name = "http_method")
     private String httpMethod;
 
