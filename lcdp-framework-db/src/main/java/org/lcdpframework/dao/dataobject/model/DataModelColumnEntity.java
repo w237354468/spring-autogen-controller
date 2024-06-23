@@ -66,6 +66,6 @@ public class DataModelColumnEntity extends GeneralEntityBase {
     @Column(name = "default_content")
     private String defaultValue;
 
-    @Column(name = "onwer_ship_table")
+    @Column(name = "owner_ship_table")
     private String ownershipTable;
 }

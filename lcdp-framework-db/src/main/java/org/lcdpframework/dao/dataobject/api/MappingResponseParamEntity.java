@@ -1,9 +1,7 @@
 package org.lcdpframework.dao.dataobject.api;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.lcdpframework.dao.dataobject.GeneralEntityBase;
 
 @Getter
@@ -11,6 +9,8 @@ import org.lcdpframework.dao.dataobject.GeneralEntityBase;
 @ToString
 @Entity
 @Table(name = "data_model_mapping_response")
+@AllArgsConstructor
+@NoArgsConstructor
 public class MappingResponseParamEntity extends GeneralEntityBase {
 
     @Id

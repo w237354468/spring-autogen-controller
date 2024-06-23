@@ -26,7 +26,7 @@ public class LcdpMappingService {
     }
 
     public Page<LcdpMappingDTO> getList(LcdpMappingDTO controllerDTO) {
-        PageRequest page = PageRequest.of(controllerDTO.getPageNum(), controllerDTO.getPageSize());
+        PageRequest page = PageRequest.of(controllerDTO.getPageNum() - 1, controllerDTO.getPageSize());
         Page<DataModelControllerMappingEntity> pageResult = mappingRepository.findAll(page);
         return pageResult.map(mappingServiceCopier::entityToDTO);
     }
@@ -52,5 +52,9 @@ public class LcdpMappingService {
     public void update(String mappingId, LcdpMappingDTO mappingDTO) {
         mappingDTO.setId(mappingId);
         mappingRepository.save(mappingServiceCopier.dtoToEntity(mappingDTO));
+    }
+
+    public LcdpMappingDTO findByMappingUrlEquals(String url) {
+        return mappingServiceCopier.entityToDTO(mappingRepository.findByMappingUrlEquals(url));
     }
 }

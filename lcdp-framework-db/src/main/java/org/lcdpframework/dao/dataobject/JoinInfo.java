@@ -40,4 +40,30 @@ public class JoinInfo extends GeneralEntityBase {
 
     @Column(name = "join_style")
     private String joinStyle;
+
+    public JoinInfo() {
+
+    }
+
+    public JoinInfo(String mainTable, String mainTableFieldId, String mainTableField, String childTable, String childTableFieldId, String childTableField, String joinStyle) {
+        this.mainTable = mainTable;
+        this.mainTableFieldId = mainTableFieldId;
+        this.mainTableField = mainTableField;
+        this.childTable = childTable;
+        this.childTableFieldId = childTableFieldId;
+        this.childTableField = childTableField;
+        this.joinStyle = joinStyle;
+    }
+
+    public static JoinInfo singleJoin(String tableName) {
+        return new JoinInfo(
+                tableName,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        );
+    }
 }

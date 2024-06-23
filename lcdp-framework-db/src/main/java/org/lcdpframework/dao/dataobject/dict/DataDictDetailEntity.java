@@ -19,7 +19,7 @@ public class DataDictDetailEntity extends GeneralEntityBase {
     private String detailId;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "data_model_id")
+    @JoinColumn(name = "data_dict_id")
     @ToString.Exclude
     private DataDictEntity dataDict;
 

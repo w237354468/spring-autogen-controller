@@ -57,9 +57,9 @@ public class DataModelControllerEntity extends GeneralEntityBase {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "controller_id")
     @ToString.Exclude
-    private List<DataModelControllerMappingEntity> mappingsEntityList = new ArrayList<>();
+    private List<DataModelControllerMappingEntity> mappingsList = new ArrayList<>();
 
     public void addControllerMapping(DataModelControllerMappingEntity dataModelControllerMappingEntity) {
-        this.mappingsEntityList.add(dataModelControllerMappingEntity);
+        this.mappingsList.add(dataModelControllerMappingEntity);
     }
 }

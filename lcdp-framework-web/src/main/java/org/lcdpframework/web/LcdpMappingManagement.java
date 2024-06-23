@@ -7,7 +7,6 @@ import org.lcdpframework.web.copier.LcdpMappingWebCopier;
 import org.lcdpframework.web.model.Response;
 import org.lcdpframework.web.model.qo.LcdpMappingAdd;
 import org.lcdpframework.web.model.qo.LcdpMappingQuery;
-import org.lcdpframework.web.model.qo.LcdpMappingUpdate;
 import org.lcdpframework.web.model.vo.LcdpMappingResult;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -40,7 +39,10 @@ public class LcdpMappingManagement {
 
     @GetMapping("/")
     public Response<Page<LcdpMappingResult>> getList(
-            @RequestBody @Valid LcdpMappingQuery mappingQuery) {
+            @RequestParam(required = false, defaultValue = "") String mappingName,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum) {
+        LcdpMappingQuery mappingQuery = new LcdpMappingQuery(mappingName, pageSize, pageNum);
         Page<LcdpMappingDTO> pageResult = mappingService.getList(
                 mappingWebCopier.queryToDTO(mappingQuery));
         return Response.ok(mappingWebCopier.dtoPageToResultPage(pageResult));
@@ -54,8 +56,8 @@ public class LcdpMappingManagement {
 
     @PutMapping("/{id}")
     public Response<Void> update(@PathVariable("id") String mappingId,
-                                 @RequestBody @Valid LcdpMappingUpdate update) {
-        mappingService.update(mappingId, mappingWebCopier.updateToDTO(update));
+                                 @RequestBody @Valid LcdpMappingAdd update) {
+        mappingService.update(mappingId, mappingWebCopier.addToDTO(update));
         return Response.ok();
     }
 }

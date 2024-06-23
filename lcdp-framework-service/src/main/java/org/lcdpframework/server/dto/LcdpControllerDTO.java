@@ -3,7 +3,6 @@ package org.lcdpframework.server.dto;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.lcdpframework.dao.dataobject.api.DataModelControllerMappingEntity;
-import org.lcdpframework.dao.dataobject.model.DataModelEntity;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,11 +15,12 @@ public class LcdpControllerDTO extends PageQuery implements Serializable {
     private String controllerId;
     private String controllerName;
     private String controllerType;
-    private DataModelEntity dataModel;
+    private String dataModelId;
+    private LcdpDataModelDTO dataModel;
     private String url;
     private String describe;
     private String publishStatus;
     private LocalDateTime publishTime;
     private String controllerStatus;
-    private List<DataModelControllerMappingEntity> mappingsEntityList = new ArrayList<>();
+    private List<DataModelControllerMappingEntity> mappingsList = new ArrayList<>();
 }

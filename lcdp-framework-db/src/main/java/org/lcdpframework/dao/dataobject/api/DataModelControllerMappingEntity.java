@@ -18,6 +18,7 @@ public class DataModelControllerMappingEntity extends GeneralEntityBase {
 
     @Id
     @Column(name = "mapping_id")
+    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
     @Column(name = "mapping_name")
@@ -35,15 +36,15 @@ public class DataModelControllerMappingEntity extends GeneralEntityBase {
     @Column(name = "mapping_url")
     private String mappingUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "mapping_id")
     @ToString.Exclude
     private List<MappingRequestParamEntity> requestParams = new ArrayList<>();
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "mapping_id")
     @ToString.Exclude
-    private List<MappingResponseParamEntity> responsesParams = new ArrayList<>();
+    private List<MappingResponseParamEntity> responseParams = new ArrayList<>();
 
     @Column(name = "mapping_describe")
     private String describe;
@@ -53,6 +54,6 @@ public class DataModelControllerMappingEntity extends GeneralEntityBase {
     }
 
     public void addResponseParam(MappingResponseParamEntity responseEntity) {
-        this.responsesParams.add(responseEntity);
+        this.responseParams.add(responseEntity);
     }
 }

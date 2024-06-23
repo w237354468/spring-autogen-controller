@@ -41,12 +41,12 @@ public class DataModelEntity extends GeneralEntityBase {
     @ToString.Exclude
     private DataSourceEntity dataSource;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "data_model_id")
     @ToString.Exclude
     private List<JoinInfo> joinInfos = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "data_model_id")
     @OrderBy("updatedOn desc")
     @ToString.Exclude

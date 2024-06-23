@@ -15,6 +15,7 @@ public class LcdpMappingDTO extends PageQuery implements Serializable {
     private String id;
     private String name;
     private String controllerId;
+    private String methodIntent;
     private String httpMethod;
     private String mappingUrl;
     private List<MappingRequestParamEntity> requestParams = new ArrayList<>();

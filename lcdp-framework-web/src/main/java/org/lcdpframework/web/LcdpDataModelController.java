@@ -7,7 +7,6 @@ import org.lcdpframework.web.copier.LcdpDataModelWebCopier;
 import org.lcdpframework.web.model.Response;
 import org.lcdpframework.web.model.qo.LcdpDataModelAdd;
 import org.lcdpframework.web.model.qo.LcdpDataModelQuery;
-import org.lcdpframework.web.model.qo.LcdpDataModelUpdate;
 import org.lcdpframework.web.model.vo.LcdpDataModelResult;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +23,7 @@ public class LcdpDataModelController {
         this.dataModelWebCopier = dataModelWebCopier;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Response<String> add(@RequestBody @Valid LcdpDataModelAdd dataModelAdd) {
         String dataModelId = dataModelService.add(dataModelWebCopier.addToDTO(dataModelAdd));
         return Response.ok(dataModelId);
@@ -36,9 +35,12 @@ public class LcdpDataModelController {
         return Response.ok(dataModelWebCopier.dtoToResult(dataModelDTO));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public Response<Page<LcdpDataModelResult>> getList(
-            @RequestBody @Valid LcdpDataModelQuery dataModelQuery) {
+            @RequestParam(required = false, defaultValue = "") String dataModelName,
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum) {
+        LcdpDataModelQuery dataModelQuery = new LcdpDataModelQuery(dataModelName, pageSize, pageNum);
         Page<LcdpDataModelDTO> pageResult = dataModelService.getList(
                 dataModelWebCopier.queryToDTO(dataModelQuery));
         return Response.ok(dataModelWebCopier.dtoPageToResultPage(pageResult));
@@ -52,8 +54,8 @@ public class LcdpDataModelController {
 
     @PutMapping("/{id}")
     public Response<Void> update(@PathVariable("id") String dataModelId,
-                                 @RequestBody @Valid LcdpDataModelUpdate update) {
-        dataModelService.update(dataModelId, dataModelWebCopier.updateToDTO(update));
+                                 @RequestBody @Valid LcdpDataModelAdd update) {
+        dataModelService.update(dataModelId, dataModelWebCopier.addToDTO(update));
         return Response.ok();
     }
 }

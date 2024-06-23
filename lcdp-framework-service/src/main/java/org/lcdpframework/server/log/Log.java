@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import java.util.EnumMap;
 import java.util.Map;
 
-import static org.lcdpframework.server.log.LcdpLog.LOGGER_TYPE.*;
+import static org.lcdpframework.server.log.Log.LOGGER_TYPE.*;
 
-public class LcdpLog {
+public class Log {
 
     private static final Logger SYSTEM_LOGGER = LoggerFactory.getLogger("LCDP_SYSTEM");
     private static final Logger BUSINESS_CONTROLLER_LOGGER = LoggerFactory.getLogger("LCDP_BUSINESS_CONTROLLER");
@@ -61,52 +61,52 @@ public class LcdpLog {
         }
     }
 
-    public static void printInfo(LOGGER_TYPE type, String format, Object... args) {
+    public static void info(LOGGER_TYPE type, String format, Object... args) {
 
         typeWithLogger.get(type).info(format, args);
     }
 
-    public static void printInfo(LOGGER_TYPE type, String format, Object arg) {
+    public static void info(LOGGER_TYPE type, String format, Object arg) {
 
         typeWithLogger.get(type).info(format, arg);
     }
 
-    public static void printInfo(LOGGER_TYPE type, String msg) {
+    public static void info(LOGGER_TYPE type, String msg) {
 
         typeWithLogger.get(type).info(msg);
     }
 
-    public static void printWarn(LOGGER_TYPE type, String format, Object... args) {
+    public static void warn(LOGGER_TYPE type, String format, Object... args) {
 
         typeWithLogger.get(type).warn(format, args);
     }
 
-    public static void printWarn(LOGGER_TYPE type, String format, Object arg) {
+    public static void warn(LOGGER_TYPE type, String format, Object arg) {
 
         typeWithLogger.get(type).warn(format, arg);
     }
 
-    public static void printWarn(LOGGER_TYPE type, String msg) {
+    public static void warn(LOGGER_TYPE type, String msg) {
 
         typeWithLogger.get(type).warn(msg);
     }
 
-    public static void printError(LOGGER_TYPE type, String msg) {
+    public static void error(LOGGER_TYPE type, String msg) {
 
         typeWithLogger.get(type).error(msg);
     }
 
-    public static void printError(LOGGER_TYPE type, String format, Object arg) {
+    public static void error(LOGGER_TYPE type, String format, Object arg) {
 
         typeWithLogger.get(type).error(format, arg);
     }
 
-    public static void printError(LOGGER_TYPE type, String format, Object arg, Object arg2) {
+    public static void error(LOGGER_TYPE type, String format, Object arg, Object arg2) {
 
         typeWithLogger.get(type).error(format, arg, arg2);
     }
 
-    public static void printError(LOGGER_TYPE type, String format, Object... args) {
+    public static void error(LOGGER_TYPE type, String format, Object... args) {
 
         typeWithLogger.get(type).error(format, args);
     }

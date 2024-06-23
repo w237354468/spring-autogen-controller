@@ -7,7 +7,6 @@ import org.lcdpframework.web.copier.LcdpControllerWebCopier;
 import org.lcdpframework.web.model.Response;
 import org.lcdpframework.web.model.qo.LcdpControllerAdd;
 import org.lcdpframework.web.model.qo.LcdpControllerQuery;
-import org.lcdpframework.web.model.qo.LcdpControllerUpdate;
 import org.lcdpframework.web.model.vo.LcdpControllerResult;
 import org.springframework.data.domain.Page;
 import org.springframework.validation.annotation.Validated;
@@ -26,7 +25,7 @@ public class LcdpControllersManagement {
         this.controllerWebCopier = controllerWebCopier;
     }
 
-    @PostMapping("/")
+    @PostMapping
     public Response<String> add(@RequestBody @Valid LcdpControllerAdd controllerAdd) {
         String controllerId = controllerService.add(controllerWebCopier.addToDTO(controllerAdd));
         return Response.ok(controllerId);
@@ -38,9 +37,11 @@ public class LcdpControllersManagement {
         return Response.ok(controllerWebCopier.dtoToResult(controllerDTO));
     }
 
-    @GetMapping("/")
+    @GetMapping
     public Response<Page<LcdpControllerResult>> getList(
-            @RequestBody @Valid LcdpControllerQuery controllerQuery) {
+            @RequestParam(required = false, defaultValue = "10") Integer pageSize,
+            @RequestParam(required = false, defaultValue = "1") Integer pageNum) {
+        LcdpControllerQuery controllerQuery = new LcdpControllerQuery(pageSize, pageNum);
         Page<LcdpControllerDTO> pageResult = controllerService.getList(
                 controllerWebCopier.queryToDTO(controllerQuery));
         return Response.ok(controllerWebCopier.dtoPageToResultPage(pageResult));
@@ -54,8 +55,8 @@ public class LcdpControllersManagement {
 
     @PutMapping("/{id}")
     public Response<Void> update(@PathVariable("id") String dataModelId,
-                                 @RequestBody @Valid LcdpControllerUpdate update) {
-        controllerService.update(dataModelId, controllerWebCopier.updateToDTO(update));
+                                 @RequestBody @Valid LcdpControllerAdd update) {
+        controllerService.update(dataModelId, controllerWebCopier.addToDTO(update));
         return Response.ok();
     }
 }
