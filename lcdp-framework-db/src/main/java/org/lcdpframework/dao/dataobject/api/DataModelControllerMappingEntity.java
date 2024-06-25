@@ -36,12 +36,12 @@ public class DataModelControllerMappingEntity extends GeneralEntityBase {
     @Column(name = "mapping_url")
     private String mappingUrl;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.REMOVE})
     @JoinColumn(name = "mapping_id")
     @ToString.Exclude
     private List<MappingRequestParamEntity> requestParams = new ArrayList<>();
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL, CascadeType.REMOVE})
     @JoinColumn(name = "mapping_id")
     @ToString.Exclude
     private List<MappingResponseParamEntity> responseParams = new ArrayList<>();
