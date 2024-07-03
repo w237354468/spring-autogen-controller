@@ -1,28 +1,35 @@
 package org.lcdpframework.server.event;
 
-import lombok.AllArgsConstructor;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import org.lcdpframework.server.dto.LcdpDataModelDTO;
 import org.lcdpframework.server.dto.LcdpMappingDTO;
-import org.lcdpframework.server.holder.LcdpGlobalParamHolder;
+
+import java.util.Map;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class LcdpRequestEvent extends LcdpApplicationEvent {
+
+    protected Map<String, Object> requestParamMap;
 
     protected LcdpDataModelDTO dataModelDTO;
 
     protected LcdpMappingDTO mappingDTO;
 
+    protected HttpServletRequest request;
+
+    protected HttpServletResponse response;
+
     protected String mappingUrl;
 
-    public LcdpRequestEvent(Object source) {
-        super(source);
-        this.mappingDTO = LcdpGlobalParamHolder.getMapping();
-        this.dataModelDTO = LcdpGlobalParamHolder.getDataModel();
+    public LcdpRequestEvent() {
+        throw new RuntimeException("can not instance request event with no args");
+    }
+
+    public LcdpRequestEvent(Object args) {
+        super(args);
     }
 }

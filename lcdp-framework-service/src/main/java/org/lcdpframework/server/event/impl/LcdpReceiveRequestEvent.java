@@ -7,9 +7,7 @@ import org.lcdpframework.server.event.LcdpRequestEvent;
 @EqualsAndHashCode(callSuper = true)
 @Data
 public class LcdpReceiveRequestEvent extends LcdpRequestEvent {
-
-    public LcdpReceiveRequestEvent(String mappingUrl) {
-        super(mappingUrl);
-        this.mappingUrl = mappingUrl;
+    public LcdpReceiveRequestEvent(Object[] args) {
+        super(args);
     }
 }
