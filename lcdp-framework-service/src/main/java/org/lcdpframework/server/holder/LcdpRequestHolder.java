@@ -1,18 +1,21 @@
 package org.lcdpframework.server.holder;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class LcdpRequestHolder {
 
-    private static final ThreadLocal<Map<String, Object>> requestHolder = ThreadLocal.withInitial(HashMap::new);
+    private static final ThreadLocal<LcdpRequestContext> requestHolder = ThreadLocal.withInitial(() -> LcdpRequestContext.builder().build());
     private static final ThreadLocal<List<LinkedHashMap<String, Object>>> responseHolder = ThreadLocal.withInitial(ArrayList::new);
 
-    public static Map<String, Object> getQuery() {
-        return requestHolder.get();
+    public static Map<String, Object> getQueryMap() {
+        return requestHolder.get().getRequestParamMap();
     }
 
-    public static void setRequest(Map<String, Object> requestContent) {
-        requestHolder.set(requestContent);
+    public static void setRequestContext(LcdpRequestContext context) {
+        requestHolder.set(context);
     }
 
     public static List<LinkedHashMap<String, Object>> getResponse() {
