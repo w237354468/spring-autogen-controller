@@ -28,4 +28,13 @@ public class JacksonUtil {
         }
         return null;
     }
+
+    public static Object toJsonPrettyFormat(Object o) {
+        try {
+            return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(o);
+        } catch (JsonProcessingException e) {
+            logger.warn("error occurred when object convert to json string");
+        }
+        return null;
+    }
 }
