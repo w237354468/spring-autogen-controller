@@ -1,13 +1,11 @@
 package org.lcdpframework.server.datasource;
 
-public class DynamicDataSource extends LcdpDynamicDataSource {
+import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
+
+public class DynamicDataSource extends AbstractRoutingDataSource {
 
     @Override
     protected Object determineCurrentLookupKey() {
-        if (null != null) { // TODO Is lcdp request
-            return DynamicDataSourceHolder.getDbKey();
-        } else {
-            return "default";
-        }
+        return DynamicDataSourceHolder.getDbKey();
     }
 }
