@@ -10,7 +10,20 @@ import java.util.Map;
 @Data
 public abstract class LcdpRequestEvent extends LcdpApplicationEvent {
 
-    protected Map<String, Object> eventContext = new HashMap<>();
+    private Map<String, Object> eventContext = new HashMap<>();
+
+    public Object getContextParam(String key) {
+        if (key != null) {
+            return eventContext.get(key);
+        }
+        return null;
+    }
+
+    public void setContextParam(String key, Object value) {
+        if (key != null) {
+            eventContext.put(key, value);
+        }
+    }
 
     public LcdpRequestEvent() {
         throw new RuntimeException("can not instance request event with no args");

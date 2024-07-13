@@ -16,14 +16,14 @@ public class DataModelChangeEvent extends LcdpApplicationEvent {
 
     private final Change modelChange;
 
-    public DataModelChangeEvent(Change change) {
-        super("dataModelChangeEvent");
+    public DataModelChangeEvent(Object source, Change change) {
+        super(source);
         this.modelChange = change;
     }
 
-    public static DataModelChangeEvent of(LcdpDataModelDTO before, LcdpDataModelDTO after) {
+    public static DataModelChangeEvent of(Object source, LcdpDataModelDTO before, LcdpDataModelDTO after) {
         DataModelChangeEvent.Change changeInfo = new DataModelChangeEvent.Change(before, after);
-        return new DataModelChangeEvent(changeInfo);
+        return new DataModelChangeEvent(source, changeInfo);
     }
 
     @Data
