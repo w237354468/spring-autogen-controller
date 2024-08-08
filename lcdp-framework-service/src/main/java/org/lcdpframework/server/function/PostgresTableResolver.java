@@ -2,26 +2,34 @@ package org.lcdpframework.server.function;
 
 import org.lcdpframework.server.dto.LcdpDataSourceDTO;
 import org.lcdpframework.server.dto.TableDetailInfo;
-import org.lcdpframework.server.log.LcdpLog;
+import org.lcdpframework.server.log.Log;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class PostgresTableResolver {
 
     private static final String TABLE_INFO_QUERY =
             """
-                    SELECT t.table_catalog, t.table_shcema, t.table_name, d.description
-                    FROM
-                        information_schema.tables t
-                    LEFT JOIN
-                        pg_catalog.pg_description d
-                    ON
-                        t.table_name = pg_catalog.regclass::text
-                    WHERE
-                        t.table_type = 'BASE TABLE'
-                          AND t.table_schema NOT IN ('pg_catalog', 'information_schema');
+                    SELECT
+                         t.table_catalog,
+                         t.table_schema,
+                         t.table_name,
+                         d.description
+                     FROM
+                         information_schema.tables t
+                     LEFT JOIN
+                         pg_catalog.pg_class c
+                         ON t.table_name = c.relname
+                     LEFT JOIN
+                         pg_catalog.pg_description d
+                         ON c.oid = d.objoid
+                     WHERE
+                         t.table_type = 'BASE TABLE'
+                         AND t.table_schema NOT IN ('pg_catalog', 'information_schema');
+                                        
                     """;
 
     private static final String ENCODING_QUERY = "SHOW SERVER_encoding";
@@ -52,13 +60,14 @@ public class PostgresTableResolver {
                 tableDetailInfo.setDataBaseName(tableSchemaResult.getObject("table_catalog").toString());
                 tableDetailInfo.setSchemaName(tableSchemaResult.getObject("table_schema").toString());
                 tableDetailInfo.setTableName(tableSchemaResult.getObject("table_name").toString());
-                tableDetailInfo.setComment(tableSchemaResult.getObject("description").toString());
+                Object description = tableSchemaResult.getObject("description");
+                tableDetailInfo.setComment(Objects.isNull(description) ? null : description.toString());
                 tableDetailInfo.setEncoding(serverEncoding);
                 result.add(tableDetailInfo);
             }
             return result;
         } catch (SQLException e) {
-            LcdpLog.printError(LcdpLog.LOGGER_TYPE.SYSTEM, "connection database failed: {}", e.getMessage(), e);
+            Log.error(Log.LOGGER_TYPE.SYSTEM, "connection database failed: {}", e.getMessage(), e);
             throw new RuntimeException(e.getMessage());
         }
     }
