@@ -1,55 +1,36 @@
 package org.lcdpframework.server.function;
 
+import jakarta.persistence.EntityManager;
 import org.lcdpframework.server.constants.LcdpStringUtil;
+import org.lcdpframework.server.datasource.DynamicDataSourceHolder;
 import org.lcdpframework.server.dto.DataModelColumnsInfoDTO;
 import org.lcdpframework.server.dto.LcdpDataSourceDTO;
-import org.lcdpframework.server.log.LcdpLog;
-import org.springframework.util.StringUtils;
+import org.lcdpframework.server.util.LcdpEventUtil;
 
-import java.sql.*;
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import static org.lcdpframework.server.constants.ColumnTypeToJavaType.getTypeIdByColumnType;
-import static org.lcdpframework.server.log.LcdpLog.LOGGER_TYPE.SYSTEM;
 
 public class TableColumnResolver implements Function<LcdpDataSourceDTO, List<DataModelColumnsInfoDTO>> {
 
-    private static final String PRIMARY_SQL_QUERY = """
-            SELECT
-                a.TABLE_NAME,
-                b.COLUMN_NAME PK,
-                a.CONSTRAINT_TYPE
-            FROM
-                user_constraints a
-            JOIN
-                user_cons_columns b
-            ON
-                a.constraint_name = b.constraint_name
-            WHERE
-                    a.CONSTRAINT_type ='P'
-                AND
-                    a.table_name in (select * from  unnest(?))
-            """;
-
     private static final String FIELD_INFO_QUERY = """
-            SELECT 
-                A.table_name,
-                A.column_name,
-                A.data_type,
-                A.nullable,
-                B.COMMENTS,
-                a.data_default,
-                a.data_length,
-                a.data_precision 
-            FROM 
-                user_tab_columns A 
-            INNER JOIN 
-                user_col_comments B 
-            ON A.column_name = B.column_name 
-            AND A.table_name =  B.table_name 
-            and A.table_name in (select * from  unnest(?)) 
-            order by array_positions(? ,A.table_name::text), A.COLUMN_ID
+            SELECT c.table_name,
+                            c.column_name,
+                            c.udt_name                                                       as data_type,
+                            col_description(c.table_name::regclass, c.ordinal_position::int) AS column_description,
+                            CASE WHEN c.is_nullable = 'YES' THEN '1' ELSE '0' END as nullable,
+                            CASE WHEN kcu.column_name IS NOT NULL THEN '1' ELSE '0' END       AS is_pk,
+                            c.column_default                                                 as data_default
+                     FROM information_schema.columns c
+                              LEFT JOIN
+                          information_schema.table_constraints tc ON c.table_name = tc.table_name AND tc.constraint_type = 'PRIMARY KEY'
+                              LEFT JOIN
+                          information_schema.key_column_usage kcu
+                              ON tc.constraint_name = kcu.constraint_name AND c.column_name = kcu.column_name
+                     WHERE c.table_name in (%s)
+                     order by c.table_name, c.ordinal_position
             """;
 
     private final List<String> tableNames;
@@ -61,66 +42,46 @@ public class TableColumnResolver implements Function<LcdpDataSourceDTO, List<Dat
     @Override
     public List<DataModelColumnsInfoDTO> apply(LcdpDataSourceDTO dataSourceDTO) {
 
-        String url = dataSourceDTO.getDataSourceUrl();
-        String account = dataSourceDTO.getAccount();
-        String password = dataSourceDTO.getPassword();
+        DynamicDataSourceHolder.changeDataSource(dataSourceDTO);
 
         ArrayList<DataModelColumnsInfoDTO> result = new ArrayList<>();
 
-        try (Connection connection = DriverManager.getConnection(url, account, password);
-             PreparedStatement pkSqlStatement = connection.prepareStatement(PRIMARY_SQL_QUERY);
-             PreparedStatement fieldInfoSqlStatement = connection.prepareStatement(FIELD_INFO_QUERY)) {
+        String tableQuerySQL = FIELD_INFO_QUERY.formatted(
+                tableNames.stream().map(e -> "'" + e + "'").collect(Collectors.joining(",")));
 
-            pkSqlStatement.setArray(1, connection.createArrayOf("text", tableNames.toArray()));
-            fieldInfoSqlStatement.setArray(1, connection.createArrayOf("text", tableNames.toArray()));
-            fieldInfoSqlStatement.setArray(2, connection.createArrayOf("text", tableNames.toArray()));
+        EntityManager entityManager = LcdpEventUtil.applicationContext.getBean(EntityManager.class);
 
-            ResultSet pkSqlResultSet = pkSqlStatement.executeQuery();
-            ResultSet fieldInfoSqlResultSet = fieldInfoSqlStatement.executeQuery();
+        List<Object[]> fieldInfoSqlResultSets = entityManager.createNativeQuery(tableQuerySQL).getResultList();
 
-            Map<String, String> tablePkInfo = new HashMap<>();
-            // fill pk, field into object
-            while (pkSqlResultSet.next()) {
-                tablePkInfo.put(pkSqlResultSet.getString("TABLE_NAME"), pkSqlResultSet.getString("PK"));
-            }
+        for (Object[] fieldInfoSqlResultSet : fieldInfoSqlResultSets) {
 
-            while (fieldInfoSqlResultSet.next()) {
-                DataModelColumnsInfoDTO columnInfo = new DataModelColumnsInfoDTO();
+            DataModelColumnsInfoDTO columnInfo = new DataModelColumnsInfoDTO();
 
-                String tableName = fieldInfoSqlResultSet.getString("table_name");
-                columnInfo.setFieldName(fieldInfoSqlResultSet.getObject("column_name").toString());
-                columnInfo.setFieldType(fieldInfoSqlResultSet.getObject("data_type").getClass().getName());
-                columnInfo.setFieldDescribe(fieldInfoSqlResultSet.getObject("COMMENTS").toString());
+            columnInfo.setOwnershipTable((String) fieldInfoSqlResultSet[0]);
+            columnInfo.setFieldName((String) fieldInfoSqlResultSet[1]);
+            columnInfo.setFieldType((String) fieldInfoSqlResultSet[2]);
+            columnInfo.setFieldDescribe((String) fieldInfoSqlResultSet[3]);
+            columnInfo.setRequired((String) fieldInfoSqlResultSet[4]);
+            columnInfo.setPk((String) fieldInfoSqlResultSet[5]);
 
-                columnInfo.setJavaAttr(LcdpStringUtil.toCamel(columnInfo.getFieldName()));
-                columnInfo.setJavaType(getTypeIdByColumnType(fieldInfoSqlResultSet.getObject("data_type").toString()));
+            columnInfo.setJavaAttr(LcdpStringUtil.toCamel(columnInfo.getFieldName()));
+            columnInfo.setJavaType(getTypeIdByColumnType(((String) fieldInfoSqlResultSet[2]).toUpperCase()));
 
-                columnInfo.setPk(tablePkInfo.getOrDefault(tableName, "").equals(columnInfo.getFieldName()) ? "1" : "0");
-                columnInfo.setRequired("Y".equals(fieldInfoSqlResultSet.getObject("nullable")) ? "N" : "Y");
-                columnInfo.setInsertPermit(0);
-                columnInfo.setUpdatePermit(0);
-                columnInfo.setQueryPermit(0);
-                columnInfo.setDeletePermit(0);
-                columnInfo.setInsertPermit(0);
+            columnInfo.setInsertPermit(0);
+            columnInfo.setUpdatePermit(0);
+            columnInfo.setQueryPermit(0);
+            columnInfo.setDeletePermit(0);
+            columnInfo.setInsertPermit(0);
 
-//                  TODO default field
-//                if (LcdpREConfigUtil.isDefaultField(columnName)) {
-//                    map.put("required", );
-//                }
-                columnInfo.setQueryMode("01"); // 01= 02!= 03> 04>= 05< 06<= 07Like 08Between
-                columnInfo.setDisplayType("01");// 01.text  02.text-area 03.drop-down  04.radio button  05.check box  06.rich text  07.date range  08.file
-                String dataDefault = fieldInfoSqlResultSet.getString("data_default");
-                columnInfo.setDefaultValue(StringUtils.hasLength(dataDefault) ? null : dataDefault.replace("'", ""));
+            columnInfo.setQueryMode("01"); // 01= 02!= 03> 04>= 05< 06<= 07Like 08Between
+            columnInfo.setDisplayType("01");// 01.text  02.text-area 03.drop-down  04.radio button  05.check box  06.rich text  07.date range  08.file
+            columnInfo.setDefaultValue((String) fieldInfoSqlResultSet[6]);
 
-                columnInfo.setOwnershipTable(tableName);
-                result.add(columnInfo);
-            }
-            replaceRepeatJavaAttrs(result);
-            return result;
-        } catch (SQLException e) {
-            LcdpLog.printError(SYSTEM, "retrieve all table fields failed: {}", e.getMessage(), e);
-            return result;
+            columnInfo.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+            result.add(columnInfo);
         }
+        replaceRepeatJavaAttrs(result);
+        return result;
     }
 
     private void replaceRepeatJavaAttrs(List<DataModelColumnsInfoDTO> list) {
