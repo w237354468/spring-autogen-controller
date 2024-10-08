@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
 public class DynamicRequestAspect {
 
     @Pointcut("execution(* org.lcdpframework.web.DynamicRequestHandler.*(..))")
-    public void lcdpRequestPointCut() {
+    public void receiveDynamicRequests() {
     }
 
-    @Around(value = "lcdpRequestPointCut()")
-    public Object aroundLcdpRequest(ProceedingJoinPoint pjp) {
+    @Around(value = "receiveDynamicRequests()")
+    public Object aroundDynamicRequest(ProceedingJoinPoint pjp) {
 
         Object[] args = pjp.getArgs();
 

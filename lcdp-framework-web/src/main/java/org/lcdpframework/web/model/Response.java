@@ -43,6 +43,4 @@ public record Response<T>(Integer code, String msg, T data) {
             this.message = message;
         }
     }
-
-
 }

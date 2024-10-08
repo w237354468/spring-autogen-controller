@@ -12,8 +12,9 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 
-import javax.sql.DataSource;
 import java.util.Map;
+
+import static org.lcdpframework.server.constants.BaseConstants.DEFAULT_DATA_SOURCE;
 
 /**
  * create a new dynamic data source which contains several datasources including main default from properties and other datasources from lcdp database
@@ -26,30 +27,27 @@ public class DynamicDataSourceAutoConfigure {
     @Primary
     public DynamicDataSource dynamicSource(DataSourceProperties dataSourceProperties) {
 
-        DataSource mainDataSource = initDruidDataSource(dataSourceProperties);
+        HikariDataSource mainDataSource = initMainDataSource(dataSourceProperties);
+
+        DynamicDataSourceHolder.putMainDataSource(mainDataSource);
 
         DynamicDataSource dynamicDataSource = new DynamicDataSource();
 
-        dynamicDataSource.setTargetDataSources(Map.of("default", mainDataSource));
-        dynamicDataSource.afterPropertiesSet();
+        dynamicDataSource.setTargetDataSources(Map.of(DEFAULT_DATA_SOURCE, mainDataSource));
         dynamicDataSource.setDefaultTargetDataSource(mainDataSource);
-
-        DynamicDataSourceHolder.putMainDataSource(mainDataSource);
+        dynamicDataSource.afterPropertiesSet();
 
         return dynamicDataSource;
     }
 
-    private HikariDataSource initDruidDataSource(DataSourceProperties dataSourceProperties) {
+    private HikariDataSource initMainDataSource(DataSourceProperties dataSourceProperties) {
         return DynamicDataSourceHolder.getDataSourceByDataModelDTO(dataSourceProperties);
     }
 
-    @Bean
+    @Bean(name = "transactionManager")
     @Primary
-    public DataSourceTransactionManager dataSourceTransactionManager(DynamicDataSource dataSource) {
-
-        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
-        dataSourceTransactionManager.setDataSource(dataSource);
-        return dataSourceTransactionManager;
+    public DataSourceTransactionManager transactionManager(DynamicDataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 
     @Bean
