@@ -14,7 +14,7 @@ public class DetailQueryConditionHelper {
 
         LcdpDataModelDTO dataModel = LcdpGlobalParamHolder.getDataModel();
         String databaseTable = dataModel.getJoinInfos().get(0).getMainTable();
-        Map<String, Object> queryMap = LcdpRequestHolder.getQueryMap();
+        Map<String, Object> queryMap = LcdpRequestHolder.getDynamicRequestParam();
         String pkTableJavaAttrInDM = AssembleUtil.getPkTableJavaAttrInDM(databaseTable, dataModel);
         if (queryMap.get(pkTableJavaAttrInDM) == null) throw new RuntimeException("cant get primary key");
 

@@ -10,7 +10,7 @@ public class LcdpRequestHolder {
     private static final ThreadLocal<LcdpRequestContext> requestHolder = ThreadLocal.withInitial(() -> LcdpRequestContext.builder().build());
     private static final ThreadLocal<List<LinkedHashMap<String, Object>>> responseHolder = ThreadLocal.withInitial(ArrayList::new);
 
-    public static Map<String, Object> getQueryMap() {
+    public static Map<String, Object> getDynamicRequestParam() {
         return requestHolder.get().getRequestParamMap();
     }
 

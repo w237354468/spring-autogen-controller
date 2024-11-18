@@ -91,7 +91,7 @@ public class MappingExecutor {
         PageImpl<List> lists = new PageImpl<List>(query.getResultList(), page, getTotal(queryInfoPair));
 
         stopWatch.stop();
-        Log.info(SYSTEM, "execute list query for {} ms", stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
+        Log.info(SYSTEM, "execute list query using {} ms", stopWatch.getTotalTime(TimeUnit.MILLISECONDS));
 
         LcdpEventUtil.publishEvent(new LcdpAfterExecuteRequestEvent(this, lists, null));
         return lists;
@@ -127,7 +127,7 @@ public class MappingExecutor {
     }
 
     private static PageRequest getPage() {
-        Map<String, Object> queryMap = LcdpRequestHolder.getQueryMap();
+        Map<String, Object> queryMap = LcdpRequestHolder.getDynamicRequestParam();
         Integer pageSize = (Integer) queryMap.get(PAGE_SIZE);
         Integer pageNum = (Integer) queryMap.get(PAGE_NUM);
         if (Objects.isNull(pageSize) || Objects.isNull(pageNum)) {

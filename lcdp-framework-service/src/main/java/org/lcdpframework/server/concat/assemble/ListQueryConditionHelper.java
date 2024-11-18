@@ -38,7 +38,7 @@ public class ListQueryConditionHelper {
 
     public static ComplexCondition getWhereCondition() {
 
-        Map<String, Object> queryParams = LcdpRequestHolder.getQueryMap();
+        Map<String, Object> queryParams = LcdpRequestHolder.getDynamicRequestParam();
         LcdpMappingDTO mapping = LcdpGlobalParamHolder.getMapping();
         List<MappingRequestParamEntity> requestStructure = mapping.getRequestParams();
 
@@ -219,7 +219,7 @@ public class ListQueryConditionHelper {
     }
 
     private static OrderCondition getOrder() {
-        Map<String, Object> queryMap = LcdpRequestHolder.getQueryMap();
+        Map<String, Object> queryMap = LcdpRequestHolder.getDynamicRequestParam();
         LcdpDataModelDTO dataModel = LcdpGlobalParamHolder.getDataModel();
         Map<String, String> attrAndTableColumnByDM = AssembleUtil.getAttrAndTableColumnInDM(dataModel);
 
